@@ -1,0 +1,39 @@
+import streamlit as st
+
+st.title("Kalkulator Kebutuhan Protein Harian 🥚🏋️")
+
+# Input dari user
+berat = st.number_input("Masukkan berat badan Anda (kg):", min_value=1.0)
+umur = st.number_input("Masukkan umur Anda:", min_value=1, step=1)
+gender = st.selectbox("Pilih jenis kelamin:", ["Pria", "Wanita"])
+aktivitas = st.selectbox(
+    "Pilih tingkat aktivitas:",
+    ["Sedentary (jarang bergerak)", "Aktif", "Atletik"]
+)
+tujuan = st.selectbox(
+    "Pilih tujuan:",
+    ["Menjaga Berat Badan (Maintenance)", "Menurunkan Berat Badan (Cutting)", "Menaikkan Massa Otot (Bulking)"]
+)
+
+# Tombol untuk menghitung
+if st.button("Hitung Kebutuhan Protein"):
+    # Menentukan multiplier berdasarkan aktivitas
+    if aktivitas.startswith("Sedentary"):
+        multiplier = 0.8
+    elif aktivitas.startswith("Aktif"):
+        multiplier = 1.5
+    elif aktivitas.startswith("Atletik"):
+        multiplier = 2.0
+    else:
+        multiplier = 1.0  # default saja
+
+    # Modifikasi multiplier berdasarkan tujuan
+    if "Cutting" in tujuan:
+        multiplier += 0.2
+    elif "Bulking" in tujuan:
+        multiplier += 0.5
+
+    kebutuhan_protein = berat * multiplier
+
+    st.success(f"Kebutuhan protein harian Anda adalah sekitar **{kebutuhan_protein:.1f} gram**.")
+
